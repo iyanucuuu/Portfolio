@@ -1,0 +1,328 @@
+========================================================
+  TECNOLOGÍAS UTILIZADAS — IYAN GIRONÉS SUÁREZ
+  Portfolio de proyectos personales y prácticas
+========================================================
+
+
+────────────────────────────────────────────────────────
+  FRONTEND
+────────────────────────────────────────────────────────
+
+ANGULAR (versiones 17 y 21)
+  Qué es:
+    Framework de Google para desarrollar aplicaciones web de una sola página
+    (SPA). Está basado en componentes, usa TypeScript como lenguaje principal
+    y sigue una arquitectura modular muy estructurada.
+
+  Cómo lo usé:
+    Es el framework principal en los tres proyectos. En Karts4Spain (v21) lo
+    usé con routing completo, guards de autenticación, formularios reactivos,
+    comunicación con el backend mediante HttpClient y Angular SSR para el
+    renderizado en servidor. En el Gestor de Ingresos & Gastos (v17) lo usé
+    con componentes de dashboard, gráficas dinámicas y módulo de inversiones.
+    En el visor de League of Legends (v21) lo usé para buscar jugadores y
+    mostrar su perfil y estadísticas consumiendo datos del proxy Node.js.
+
+────────────────────────────────────────────────────────
+
+TYPESCRIPT
+  Qué es:
+    Superset de JavaScript desarrollado por Microsoft que añade tipado
+    estático al lenguaje. Permite declarar el tipo de cada variable, parámetro
+    y retorno de función, lo que ayuda a detectar errores antes de ejecutar el
+    código y mejora el autocompletado en el editor.
+
+  Cómo lo usé:
+    Es el lenguaje base de todos mis proyectos Angular. Lo uso para definir
+    modelos de datos (interfaces y clases), tipar las respuestas de las APIs,
+    crear servicios con inyección de dependencias y escribir código más seguro
+    y mantenible en general.
+
+────────────────────────────────────────────────────────
+
+JAVASCRIPT
+  Qué es:
+    El lenguaje de programación nativo de los navegadores web. Permite
+    añadir lógica e interactividad a las páginas. TypeScript compila a
+    JavaScript, así que todo lo que escribo en TS termina siendo JS.
+
+  Cómo lo usé:
+    Lo uso directamente en el portfolio para las animaciones: el canvas de
+    estrellas que reacciona al ratón, el efecto de escritura (typing effect)
+    del hero, el sistema de scroll reveal con IntersectionObserver y la
+    lógica de subida del CV. También lo usé en las prácticas de HUNOSA para
+    desarrollar una aplicación de etiquetado con HTML/CSS/JS puro.
+
+────────────────────────────────────────────────────────
+
+HTML5
+  Qué es:
+    El lenguaje de marcado estándar para estructurar el contenido de las
+    páginas web. HTML5 añadió etiquetas semánticas (header, main, section,
+    article, nav) que mejoran la accesibilidad y el posicionamiento SEO.
+
+  Cómo lo usé:
+    En Angular, cada componente tiene su propio template HTML. Lo uso para
+    estructurar los formularios, tablas, listas y layouts de todos los
+    proyectos. También lo usé directamente (sin frameworks) en la aplicación
+    de etiquetado de las prácticas en HUNOSA.
+
+────────────────────────────────────────────────────────
+
+CSS3
+  Qué es:
+    El lenguaje de estilos que controla la apariencia visual de las páginas.
+    CSS3 introdujo flexbox, grid, variables, animaciones, transiciones y
+    media queries para diseño responsivo.
+
+  Cómo lo usé:
+    En Angular uso tanto estilos globales (styles.css) como estilos
+    encapsulados por componente. En el portfolio lo uso intensivamente:
+    variables CSS para la paleta de colores, animaciones con @keyframes,
+    grid y flexbox para los layouts, y media queries para adaptar el diseño
+    a móvil. También en la aplicación de etiquetado de HUNOSA.
+
+
+────────────────────────────────────────────────────────
+  BACKEND
+────────────────────────────────────────────────────────
+
+NODE.JS
+  Qué es:
+    Entorno de ejecución que permite usar JavaScript en el servidor, fuera
+    del navegador. Es asíncrono y orientado a eventos, lo que lo hace muy
+    eficiente para manejar múltiples peticiones simultáneas.
+
+  Cómo lo usé:
+    Es la base de todos mis backends. En el visor de League of Legends lo uso
+    como proxy para resolver el problema de CORS: la Riot API no permite
+    peticiones directas desde el navegador, así que el frontend llama a mi
+    servidor Node.js y este hace la petición a Riot y devuelve el resultado.
+    En Karts4Spain y en el Gestor de Ingresos & Gastos lo uso para servir la
+    API REST que consume el frontend Angular.
+
+────────────────────────────────────────────────────────
+
+EXPRESS
+  Qué es:
+    Framework minimalista para Node.js que simplifica la creación de
+    servidores web y APIs REST. Permite definir rutas, usar middlewares para
+    procesar peticiones y manejar errores de forma sencilla.
+
+  Cómo lo usé:
+    Lo uso en todos los backends para definir las rutas de la API (GET, POST,
+    PUT, DELETE), configurar CORS, parsear JSON en las peticiones y estructurar
+    el servidor de forma limpia. Es la capa que recibe las llamadas del
+    frontend Angular y responde con los datos necesarios.
+
+────────────────────────────────────────────────────────
+
+REST API
+  Qué es:
+    Estilo de arquitectura para el diseño de APIs web basado en el protocolo
+    HTTP. Define que cada recurso tiene su propia URL y se accede a él
+    mediante los métodos HTTP: GET (leer), POST (crear), PUT (actualizar)
+    y DELETE (eliminar).
+
+  Cómo lo usé:
+    Tanto en el diseño de mis propias APIs con Express (endpoints para
+    usuarios, escuderías, transacciones...) como en el consumo de APIs
+    externas. En el visor de LoL consumo la Riot Games API REST para obtener
+    datos de jugadores y partidas. En las prácticas de HUNOSA integré la API
+    REST de Mapbox para añadir funcionalidad de mapas a una aplicación web.
+
+
+────────────────────────────────────────────────────────
+  LIBRERÍAS
+────────────────────────────────────────────────────────
+
+RXJS
+  Qué es:
+    Librería para programación reactiva con Observables. Un Observable
+    representa un flujo de datos asíncrono al que te puedes suscribir.
+    Incluye operadores para transformar, filtrar y combinar esos flujos.
+
+  Cómo lo usé:
+    Es parte del núcleo de Angular; HttpClient devuelve Observables. Los uso
+    con operadores como switchMap (para cancelar peticiones anteriores al
+    buscar), map (para transformar la respuesta), catchError (para manejar
+    errores) y debounceTime (para no lanzar una búsqueda en cada tecla
+    pulsada). Lo apliqué especialmente en el buscador de jugadores del
+    visor de LoL y en los listados con filtros de Karts4Spain.
+
+────────────────────────────────────────────────────────
+
+CHART.JS
+  Qué es:
+    Librería JavaScript para crear gráficas y visualizaciones de datos
+    usando el elemento canvas de HTML5. Soporta gráficas de barras, líneas,
+    circulares, de radar y más, con animaciones y tooltips incluidos.
+
+  Cómo lo usé:
+    En el Gestor de Ingresos & Gastos la uso para mostrar los datos
+    financieros del usuario de forma visual. Implementé gráficas de barras
+    para comparar ingresos y gastos por mes, gráficas de líneas para ver la
+    evolución del patrimonio, y gráficas circulares para ver el desglose por
+    categorías. Los datos se actualizan en tiempo real al añadir o eliminar
+    transacciones.
+
+────────────────────────────────────────────────────────
+
+LEAFLET
+  Qué es:
+    Librería JavaScript de código abierto para crear mapas interactivos en
+    el navegador. Es ligera, muy documentada y compatible con múltiples
+    proveedores de mapas como OpenStreetMap.
+
+  Cómo lo usé:
+    En Karts4Spain la integré para mostrar un mapa de España con los
+    circuitos de karting marcados como puntos. El usuario puede hacer zoom,
+    hacer clic en un marcador para ver los detalles de la pista (nombre,
+    dirección, información de contacto) y navegar libremente por el mapa.
+
+────────────────────────────────────────────────────────
+
+ANGULAR SSR (Server-Side Rendering)
+  Qué es:
+    Técnica que permite que el servidor genere el HTML completo de la página
+    antes de enviárselo al navegador, en lugar de que sea el navegador quien
+    lo construya. Mejora el tiempo de carga inicial, el SEO y la experiencia
+    en dispositivos lentos o conexiones lentas.
+
+  Cómo lo usé:
+    Lo implementé en Karts4Spain como parte del Trabajo de Fin de Grado de
+    DAW. Configuré Angular Universal con un servidor Node.js/Express que
+    renderiza las páginas en servidor. Implica separar el código que solo
+    puede ejecutarse en el navegador (como acceder al DOM) del código
+    universal que funciona tanto en servidor como en cliente.
+
+────────────────────────────────────────────────────────
+
+RIOT GAMES API
+  Qué es:
+    API oficial de Riot Games que expone datos de League of Legends:
+    información de jugadores, historial de partidas, rankings, estadísticas
+    de campeones, etc. Requiere autenticación mediante API Key y tiene
+    endpoints diferenciados por región (euw1 para datos de jugador) y por
+    routing (europe para historial de partidas).
+
+  Cómo lo usé:
+    En el visor de League of Legends Profile la uso para buscar cualquier
+    jugador por su Riot ID (nombre#tag), obtener su puuid, consultar su
+    rango actual en las colas clasificatorias y obtener el historial de sus
+    últimas partidas con estadísticas detalladas. La Development API Key
+    expira cada 24 horas, así que hay que renovarla en el portal de Riot.
+
+
+────────────────────────────────────────────────────────
+  HERRAMIENTAS Y ENTORNO
+────────────────────────────────────────────────────────
+
+GIT
+  Qué es:
+    Sistema de control de versiones distribuido. Registra todos los cambios
+    que se hacen en el código a lo largo del tiempo, permitiendo volver a
+    versiones anteriores, trabajar en paralelo con ramas y colaborar con
+    otros desarrolladores.
+
+  Cómo lo usé:
+    Lo uso en todos mis proyectos para registrar el historial de cambios.
+    Trabajo con ramas para separar el desarrollo de nuevas funcionalidades
+    del código estable. El TFG de ASIR está subido a GitHub en el repositorio
+    github.com/iesdis/proyectoSID.
+
+────────────────────────────────────────────────────────
+
+NPM (Node Package Manager)
+  Qué es:
+    Gestor de paquetes oficial de Node.js. Permite instalar librerías y
+    herramientas de terceros, gestionar sus versiones y definir scripts
+    de proyecto (start, build, test...) en el archivo package.json.
+
+  Cómo lo usé:
+    Lo uso en todos los proyectos para instalar dependencias (Angular,
+    Chart.js, Leaflet, Express...) y para lanzar los proyectos en local
+    mediante scripts como "npm start" o "npm run dev". También para
+    instalar herramientas de desarrollo como el Angular CLI.
+
+────────────────────────────────────────────────────────
+
+JENKINS
+  Qué es:
+    Herramienta de integración y despliegue continuo (CI/CD). Automatiza
+    tareas como compilar el código, pasar tests y desplegar aplicaciones
+    en servidores de producción.
+
+  Cómo lo usé:
+    Durante las prácticas en INETUM (2024) lo usé para subir y desplegar
+    aplicaciones en los entornos de la empresa. Aprendí el flujo de trabajo
+    de CI/CD en un entorno corporativo real.
+
+────────────────────────────────────────────────────────
+
+ORACLE / MySQL (TOAD)
+  Qué es:
+    Sistemas de gestión de bases de datos relacionales. TOAD es una
+    herramienta gráfica para conectarse a bases de datos Oracle y MySQL y
+    ejecutar consultas SQL de forma cómoda.
+
+  Cómo lo usé:
+    En las prácticas de INETUM realicé consultas a bases de datos Oracle
+    usando TOAD para revisar datos de los sistemas de la empresa. Tengo
+    también formación certificada en MySQL a través de cursos de
+    Openwebinars.
+
+────────────────────────────────────────────────────────
+
+EXCEL / VBA
+  Qué es:
+    Excel es la hoja de cálculo de Microsoft Office. VBA (Visual Basic for
+    Applications) es el lenguaje de macros integrado en Excel que permite
+    automatizar tareas repetitivas mediante código.
+
+  Cómo lo usé:
+    En las prácticas de HUNOSA (2026) desarrollé automatizaciones en Excel
+    mediante VBA para optimizar procesos internos de la empresa que antes se
+    hacían de forma manual.
+
+────────────────────────────────────────────────────────
+
+OTRAS TECNOLOGÍAS CON FORMACIÓN
+────────────────────────────────────────────────────────
+
+  PHP         — Lenguaje de programación para servidor web.
+                Formación certificada en Openwebinars.
+
+  Linux       — Sistema operativo. Formación en Shell Linux (Bash),
+                administración de sistemas, cursos certificados.
+                Usado también en las prácticas de INETUM
+                (conexiones a servidores remotos con Putty).
+
+  Azure       — Plataforma cloud de Microsoft. TFG de ASIR:
+                arquitectura básica con máquinas virtuales,
+                servidores, roles y grupos de seguridad.
+
+  Docker      — Plataforma de contenedores. Nociones básicas
+                adquiridas de forma autodidacta.
+
+  Putty       — Cliente SSH para conectarse a servidores remotos.
+                Usado en prácticas de INETUM.
+
+  Remedy      — Herramienta de ticketing corporativa para gestión
+                de incidencias. Usado en prácticas de INETUM.
+
+  Java        — Lenguaje de programación orientado a objetos.
+                Conocimientos adquiridos durante la formación.
+
+  Python      — Lenguaje de programación de propósito general.
+                Conocimientos adquiridos durante la formación.
+
+  Mapbox API  — API de mapas de terceros. Integrada en una
+                aplicación web durante las prácticas en HUNOSA.
+
+
+========================================================
+  Iyan Gironés Suárez — iyangirones2004@gmail.com
+  github.com/iyanucuuu
+  linkedin.com/in/iyán-gironés-suárez
+========================================================

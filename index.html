@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iyan Gironés Suárez — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/devicons@1.8.0/css/devicons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080c14;
+      --bg2: #0d1524;
+      --bg3: #111c2e;
+      --accent: #4f8ef7;
+      --accent2: #a78bfa;
+      --accent3: #34d399;
+      --text: #e2e8f0;
+      --muted: #64748b;
+      --border: rgba(79,142,247,0.15);
+      --glow: rgba(79,142,247,0.4);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ───── SCROLLBAR ───── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+    /* ───── CANVAS STARS ───── */
+    #stars-canvas {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    }
+
+    /* ───── NAV ───── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(8,12,20,0.7);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: all .3s;
+    }
+    .nav-logo {
+      font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: .9rem; font-weight: 500;
+      transition: color .3s; position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
+      background: var(--accent); transition: width .3s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* ───── HERO ───── */
+    #hero {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 6rem 2rem 4rem;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .4rem 1rem; border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(79,142,247,0.08);
+      font-size: .8rem; color: var(--accent); font-weight: 500;
+      margin-bottom: 2rem;
+      animation: fadeDown .8s ease both;
+    }
+    .hero-badge span { width: 8px; height: 8px; border-radius: 50%; background: var(--accent3); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
+
+    h1.hero-title {
+      font-size: clamp(2.8rem, 7vw, 6rem);
+      font-weight: 900; line-height: 1.05; letter-spacing: -2px;
+      margin-bottom: 1.5rem;
+      animation: fadeUp .9s ease .1s both;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 50%, var(--accent3) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-size: 200% auto; animation: gradientMove 4s linear infinite;
+    }
+    @keyframes gradientMove { 0%{background-position:0%} 100%{background-position:200%} }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2.5vw, 1.3rem); color: var(--muted);
+      max-width: 600px; line-height: 1.7;
+      margin-bottom: 3rem;
+      animation: fadeUp .9s ease .2s both;
+    }
+
+    .hero-typing {
+      font-family: 'Fira Code', monospace;
+      font-size: clamp(.9rem, 2vw, 1.1rem);
+      color: var(--accent3);
+      margin-bottom: 3rem;
+      animation: fadeUp .9s ease .25s both;
+    }
+    .cursor { animation: blink 1s step-end infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    .hero-ctas {
+      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+      animation: fadeUp .9s ease .35s both;
+    }
+    .btn {
+      padding: .85rem 2rem; border-radius: 12px; font-size: .95rem; font-weight: 600;
+      cursor: pointer; text-decoration: none; transition: all .3s; border: none;
+      display: inline-flex; align-items: center; gap: .5rem;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; box-shadow: 0 0 30px var(--glow);
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 0 50px var(--glow); }
+    .btn-outline {
+      background: transparent; color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { background: var(--border); transform: translateY(-3px); }
+
+    .scroll-hint {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      color: var(--muted); font-size: .75rem; animation: fadeIn 1s ease 1s both;
+    }
+    .scroll-arrow {
+      width: 24px; height: 24px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted);
+      transform: rotate(45deg); animation: scrollBounce 2s ease infinite;
+    }
+    @keyframes scrollBounce { 0%,100%{transform:rotate(45deg) translate(0,0)} 50%{transform:rotate(45deg) translate(4px,4px)} }
+
+    /* ───── SECTIONS ───── */
+    section { position: relative; z-index: 1; padding: 6rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      font-family: 'Fira Code', monospace;
+      font-size: .8rem; color: var(--accent); letter-spacing: 3px; text-transform: uppercase;
+      margin-bottom: .75rem;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; letter-spacing: -1px;
+      margin-bottom: 1rem;
+    }
+    .section-divider {
+      width: 60px; height: 4px; border-radius: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      margin-bottom: 3rem;
+    }
+
+    /* ───── SOBRE MÍ ───── */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+    }
+    .about-text p { color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+    .about-text strong { color: var(--text); }
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    }
+    .stat-card {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 16px;
+      padding: 1.5rem; text-align: center;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .stat-card:hover { transform: translateY(-4px); box-shadow: 0 0 30px var(--glow); }
+    .stat-number { font-size: 2.2rem; font-weight: 800; background: linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .stat-label { font-size: .8rem; color: var(--muted); margin-top: .25rem; }
+
+    /* ───── ESTUDIOS ───── */
+    .edu-grid { display: flex; flex-direction: column; gap: 1.5rem; }
+    .edu-card {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 20px;
+      padding: 2rem 2.5rem; display: flex; gap: 2rem; align-items: flex-start;
+      transition: all .3s;
+    }
+    .edu-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,.4), 0 0 30px var(--glow); border-color: rgba(79,142,247,.3); }
+    .edu-left { flex-shrink: 0; }
+    .edu-icon { display: flex; }
+    .edu-content { display: flex; flex-direction: column; gap: .6rem; }
+    .edu-badge {
+      font-size: .72rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--muted); font-family: 'Fira Code', monospace;
+    }
+    .edu-title { font-size: 1.2rem; font-weight: 700; }
+    .edu-abbr {
+      display: inline-block; margin-left: .4rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      font-weight: 800;
+    }
+    .edu-desc { color: var(--muted); font-size: .9rem; line-height: 1.7; }
+    .edu-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .2rem; }
+
+    /* ───── EXPERIENCIA ───── */
+    #experience { background: var(--bg2); }
+    .exp-timeline { position: relative; padding-left: 2rem; }
+    .exp-timeline::before {
+      content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent), var(--accent2), transparent);
+    }
+    .exp-item {
+      position: relative; margin-bottom: 2.5rem;
+      opacity: 0; transform: translateX(-20px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .exp-item.visible { opacity: 1; transform: translateX(0); }
+    .exp-item:last-child { margin-bottom: 0; }
+    .exp-dot {
+      position: absolute; left: -2.45rem; top: 6px;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--bg2); border: 2px solid var(--accent);
+      box-shadow: 0 0 10px var(--glow);
+      transition: all .3s;
+    }
+    .exp-item:hover .exp-dot {
+      background: var(--accent); box-shadow: 0 0 20px var(--glow);
+      transform: scale(1.3);
+    }
+    .exp-card {
+      background: var(--bg3); border: 1px solid var(--border); border-radius: 20px;
+      padding: 2rem 2.5rem; transition: all .3s;
+    }
+    .exp-card:hover {
+      border-color: rgba(79,142,247,.35);
+      box-shadow: 0 12px 40px rgba(0,0,0,.4), 0 0 30px rgba(79,142,247,.1);
+      transform: translateX(6px);
+    }
+    .exp-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .exp-company { display: flex; align-items: center; gap: 1rem; }
+    .exp-logo {
+      width: 48px; height: 48px; border-radius: 12px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border);
+    }
+    .exp-info {}
+    .exp-role { font-size: 1.1rem; font-weight: 700; margin-bottom: .2rem; }
+    .exp-company-name { font-size: .85rem; color: var(--accent); font-weight: 600; }
+    .exp-meta { display: flex; flex-direction: column; align-items: flex-end; gap: .3rem; flex-shrink: 0; }
+    .exp-date {
+      font-family: 'Fira Code', monospace; font-size: .78rem;
+      color: var(--muted); background: var(--bg2);
+      padding: .25rem .75rem; border-radius: 999px; border: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .exp-duration {
+      font-size: .75rem; color: var(--accent3); font-weight: 600;
+      font-family: 'Fira Code', monospace;
+    }
+    .exp-desc { color: var(--muted); font-size: .9rem; line-height: 1.7; margin-bottom: 1rem; }
+    .exp-tasks { list-style: none; display: flex; flex-direction: column; gap: .45rem; margin-bottom: 1.2rem; }
+    .exp-tasks li {
+      display: flex; align-items: flex-start; gap: .7rem;
+      font-size: .88rem; color: var(--muted);
+    }
+    .exp-tasks li::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0; margin-top: .45rem;
+    }
+    .exp-tasks li strong { color: var(--text); }
+    .exp-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
+
+    /* ───── TECNOLOGÍAS ───── */
+    #tech { background: var(--bg2); }
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 1rem;
+    }
+    .tech-card {
+      background: var(--bg3); border: 1px solid var(--border); border-radius: 14px;
+      padding: 1.2rem .8rem; display: flex; flex-direction: column; align-items: center; gap: .6rem;
+      cursor: default; transition: all .3s;
+      opacity: 0; transform: translateY(20px);
+    }
+    .tech-card.visible { opacity: 1; transform: translateY(0); }
+    .tech-card:hover {
+      transform: translateY(-6px) scale(1.05);
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--glow);
+    }
+    .tech-icon { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
+    .tech-icon svg { width: 100%; height: 100%; }
+    .tech-name { font-size: .75rem; font-weight: 600; color: var(--muted); text-align: center; }
+    .tech-card:hover .tech-name { color: var(--text); }
+
+    /* ───── PROYECTOS ───── */
+    .projects-grid { display: grid; gap: 2rem; }
+
+    .project-card {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 20px;
+      overflow: hidden; transition: all .4s; position: relative;
+      opacity: 0; transform: translateY(30px);
+    }
+    .project-card.visible { opacity: 1; transform: translateY(0); }
+    .project-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,.5), 0 0 40px var(--glow); border-color: rgba(79,142,247,.4); }
+
+    .project-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(79,142,247,.04), rgba(167,139,250,.04));
+      opacity: 0; transition: opacity .4s;
+    }
+    .project-card:hover::before { opacity: 1; }
+
+    .project-inner { display: grid; grid-template-columns: 300px 1fr; }
+
+    .project-visual {
+      padding: 2.5rem 2rem; display: flex; flex-direction: column; justify-content: space-between;
+      align-items: flex-start;
+      border-right: 1px solid var(--border);
+      background: linear-gradient(160deg, rgba(79,142,247,0.04) 0%, transparent 70%);
+    }
+    .project-number {
+      font-family: 'Fira Code', monospace;
+      font-size: 4rem; font-weight: 700; line-height: 1;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      opacity: .3;
+    }
+    .project-icon { margin: 1.5rem 0; display: flex; justify-content: center; width: 100%; }
+    .project-icon svg { width: 140px; height: 140px; filter: drop-shadow(0 0 20px rgba(79,142,247,0.2)); }
+    .project-type {
+      font-size: .75rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--accent); font-family: 'Fira Code', monospace;
+    }
+
+    .project-content { padding: 2.5rem; display: flex; flex-direction: column; gap: 1.2rem; }
+    .project-title { font-size: 1.6rem; font-weight: 800; letter-spacing: -.5px; }
+    .project-desc { color: var(--muted); line-height: 1.75; font-size: .95rem; }
+
+    .project-features { list-style: none; display: flex; flex-direction: column; gap: .4rem; }
+    .project-features li {
+      font-size: .85rem; color: var(--muted); display: flex; align-items: flex-start; gap: .6rem;
+    }
+    .project-features li::before { content: '▹'; color: var(--accent3); flex-shrink: 0; }
+
+    .project-tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .tag {
+      padding: .3rem .8rem; border-radius: 999px; font-size: .75rem; font-weight: 600;
+      border: 1px solid; display: inline-flex; align-items: center; gap: .3rem;
+    }
+    .tag-blue { color: #60a5fa; border-color: rgba(96,165,250,.3); background: rgba(96,165,250,.08); }
+    .tag-purple { color: #c084fc; border-color: rgba(192,132,252,.3); background: rgba(192,132,252,.08); }
+    .tag-green { color: #4ade80; border-color: rgba(74,222,128,.3); background: rgba(74,222,128,.08); }
+    .tag-orange { color: #fb923c; border-color: rgba(251,146,60,.3); background: rgba(251,146,60,.08); }
+    .tag-red { color: #f87171; border-color: rgba(248,113,113,.3); background: rgba(248,113,113,.08); }
+    .tag-yellow { color: #facc15; border-color: rgba(250,204,21,.3); background: rgba(250,204,21,.08); }
+    .tag-cyan { color: #22d3ee; border-color: rgba(34,211,238,.3); background: rgba(34,211,238,.08); }
+    .tag-pink { color: #f472b6; border-color: rgba(244,114,182,.3); background: rgba(244,114,182,.08); }
+
+    /* ───── CONTACTO ───── */
+    #contact { background: var(--bg2); }
+    .contact-wrapper {
+      max-width: 700px; margin: 0 auto; text-align: center;
+    }
+    .contact-desc { color: var(--muted); line-height: 1.8; margin-bottom: 3rem; }
+    .contact-card {
+      background: var(--bg3); border: 1px solid var(--border); border-radius: 20px;
+      padding: 3rem; margin-bottom: 2rem;
+      position: relative; overflow: hidden;
+    }
+    .contact-card::before {
+      content: ''; position: absolute; top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle at 50% 50%, rgba(79,142,247,.06), transparent 60%);
+      animation: rotateBg 10s linear infinite;
+    }
+    @keyframes rotateBg { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+    .contact-email {
+      font-size: clamp(1.1rem, 3vw, 1.5rem); font-weight: 700;
+      color: var(--accent); font-family: 'Fira Code', monospace;
+      text-decoration: none; position: relative; z-index: 1;
+      transition: color .3s;
+    }
+    .contact-email:hover { color: var(--accent2); }
+
+    .contact-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+    .contact-link {
+      display: flex; align-items: center; gap: .5rem;
+      padding: .75rem 1.5rem; border-radius: 12px;
+      border: 1px solid var(--border); background: var(--bg3);
+      color: var(--muted); text-decoration: none; font-size: .9rem; font-weight: 500;
+      transition: all .3s;
+    }
+    .contact-link:hover { color: var(--text); border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 0 20px var(--glow); }
+
+    /* ───── CV ───── */
+    .cv-card {
+      background: var(--bg3); border: 1px solid var(--border); border-radius: 16px;
+      padding: 1.5rem 2rem; margin-bottom: 2rem;
+      display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+      transition: all .3s;
+    }
+    .cv-card:hover { border-color: rgba(79,142,247,.35); box-shadow: 0 0 30px var(--glow); }
+    .cv-left { flex-shrink: 0; }
+    .cv-info { flex: 1; min-width: 180px; text-align: left; }
+    .cv-title { font-weight: 700; font-size: 1rem; margin-bottom: .25rem; }
+    .cv-sub { font-size: .8rem; color: var(--muted); }
+    .cv-actions { display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; }
+    .cv-upload-label { cursor: pointer; font-size: .85rem; padding: .65rem 1.25rem; }
+    .cv-card.has-cv { border-color: rgba(52,211,153,.3); }
+    .cv-card.has-cv .cv-title { color: var(--accent3); }
+
+    /* ───── FOOTER ───── */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 2rem 4rem;
+      display: flex; align-items: center; justify-content: space-between;
+      color: var(--muted); font-size: .8rem;
+    }
+    .footer-code { font-family: 'Fira Code', monospace; }
+
+    /* ───── ANIMATIONS ───── */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+    /* ───── RESPONSIVE ───── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .project-inner { grid-template-columns: 1fr; }
+      .project-visual { border-right: none; border-bottom: 1px solid var(--border); padding: 1.5rem; }
+      footer { flex-direction: column; gap: .5rem; text-align: center; padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="stars-canvas"></canvas>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">Portfolio Personal</a>
+  <ul class="nav-links">
+    <li><a href="#about">Sobre mí</a></li>
+    <li><a href="#education">Formación</a></li>
+    <li><a href="#experience">Experiencia</a></li>
+    <li><a href="#tech">Tecnologías</a></li>
+    <li><a href="#projects">Proyectos</a></li>
+    <li><a href="#contact">Contacto</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-badge">
+    <span></span> Disponible para trabajar
+  </div>
+  <h1 class="hero-title">
+    Hola, soy<br>
+    <span class="gradient-text">Iyan Gironés Suárez</span>
+  </h1>
+  <p class="hero-sub">
+    Desarrollador Full Stack apasionado por construir aplicaciones web modernas,
+    funcionales y con buena experiencia de usuario.
+  </p>
+  <div class="hero-typing">
+    <span id="typed-text"></span><span class="cursor">|</span>
+  </div>
+  <div class="hero-ctas">
+    <a href="#projects" class="btn btn-primary">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Ver proyectos
+    </a>
+    <a href="#contact" class="btn btn-outline">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Contactar
+    </a>
+  </div>
+  <div class="scroll-hint">
+    <span>scroll</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- SOBRE MÍ -->
+<section id="about">
+  <div class="container">
+    <p class="section-label">// about me</p>
+    <h2 class="section-title">Sobre mí</h2>
+    <div class="section-divider"></div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>Soy un desarrollador Full Stack con experiencia en el ecosistema <strong>Angular</strong> y <strong>Node.js</strong>. Me encanta transformar ideas en productos digitales con código limpio y bien estructurado.</p>
+        <p>He desarrollado proyectos que van desde aplicaciones de <strong>gestión financiera personal</strong> con visualizaciones de datos, hasta plataformas sociales con mapas interactivos y sistemas de clanes.</p>
+        <p>Actualmente en búsqueda de mi primera oportunidad profesional donde seguir creciendo y aportar valor desde el primer día.</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card reveal">
+          <div class="stat-number">3</div>
+          <div class="stat-label">Proyectos completados</div>
+        </div>
+        <div class="stat-card reveal">
+          <div class="stat-number">∞</div>
+          <div class="stat-label">Ganas de aprender</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ESTUDIOS -->
+<section id="education">
+  <div class="container">
+    <p class="section-label">// education</p>
+    <h2 class="section-title">Formación</h2>
+    <div class="section-divider"></div>
+    <div class="edu-grid">
+
+      <div class="edu-card reveal">
+        <div class="edu-left">
+          <div class="edu-icon">
+            <svg viewBox="0 0 48 48" width="48" height="48"><rect width="48" height="48" rx="12" fill="rgba(167,139,250,0.12)"/><path d="M24 10l-14 7 14 7 14-7-14-7z" fill="#a78bfa"/><path d="M10 24v8c0 2 6.3 5 14 5s14-3 14-5v-8" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"/><path d="M38 17v8" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+        <div class="edu-content">
+          <div class="edu-badge">Ciclo Formativo Grado Superior</div>
+          <h3 class="edu-title">Desarrollo de Aplicaciones Web <span class="edu-abbr">DAW</span></h3>
+          <p class="edu-desc">Programación web front-end y back-end, bases de datos, despliegue de aplicaciones y desarrollo con frameworks modernos.</p>
+          <div class="edu-tags">
+            <span class="tag tag-purple">HTML · CSS · JS</span>
+            <span class="tag tag-blue">Angular</span>
+            <span class="tag tag-green">Node.js</span>
+            <span class="tag tag-orange">SQL</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="edu-card reveal">
+        <div class="edu-left">
+          <div class="edu-icon">
+            <svg viewBox="0 0 48 48" width="48" height="48"><rect width="48" height="48" rx="12" fill="rgba(52,211,153,0.12)"/><rect x="10" y="14" width="28" height="20" rx="3" fill="none" stroke="#34d399" stroke-width="2"/><path d="M10 20h28" stroke="#34d399" stroke-width="1.5"/><circle cx="16" cy="17" r="1.5" fill="#34d399" opacity=".6"/><circle cx="21" cy="17" r="1.5" fill="#34d399" opacity=".6"/><path d="M15 26h8M15 30h12" stroke="#34d399" stroke-width="1.5" stroke-linecap="round"/><path d="M30 26l4 4-4 4" stroke="#34d399" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="edu-content">
+          <div class="edu-badge">Ciclo Formativo Grado Superior</div>
+          <h3 class="edu-title">Administración de Sistemas Informáticos en Red <span class="edu-abbr">ASIR</span></h3>
+          <p class="edu-desc">Administración de sistemas operativos, redes, seguridad informática, servicios en la nube y virtualización.</p>
+          <div class="edu-tags">
+            <span class="tag tag-green">Linux</span>
+            <span class="tag tag-cyan">Redes TCP/IP</span>
+            <span class="tag tag-blue">Virtualización</span>
+            <span class="tag tag-red">Seguridad</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCIA -->
+<section id="experience">
+  <div class="container">
+    <p class="section-label">// experience</p>
+    <h2 class="section-title">Experiencia</h2>
+    <div class="section-divider"></div>
+    <div class="exp-timeline">
+
+      <!-- HUNOSA 2026 -->
+      <div class="exp-item">
+        <div class="exp-dot"></div>
+        <div class="exp-card">
+          <div class="exp-header">
+            <div class="exp-company">
+              <div class="exp-logo" style="background:rgba(52,211,153,0.08);">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                  <rect width="28" height="28" rx="7" fill="rgba(52,211,153,0.1)"/>
+                  <path d="M6 20 L14 8 L22 20" fill="none" stroke="#34d399" stroke-width="2" stroke-linejoin="round"/>
+                  <path d="M9 16 h10" stroke="#34d399" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="exp-info">
+                <div class="exp-role">Desarrollador Web — Prácticas DAW</div>
+                <div class="exp-company-name">HUNOSA · Hunosa Carbón y Energía</div>
+              </div>
+            </div>
+            <div class="exp-meta">
+              <div class="exp-date">2026</div>
+              <div class="exp-duration">3 meses</div>
+            </div>
+          </div>
+          <p class="exp-desc">
+            Prácticas de Fin de Grado del ciclo DAW en la empresa minera y energética HUNOSA.
+            Participé en el desarrollo de herramientas internas y la integración de servicios externos.
+          </p>
+          <ul class="exp-tasks">
+            <li><strong>Automatización con Excel/VBA:</strong> desarrollé macros para automatizar procesos internos repetitivos, reduciendo el tiempo de trabajo manual del equipo.</li>
+            <li><strong>Aplicación de etiquetado:</strong> desarrollé desde cero una aplicación web con HTML, CSS y JavaScript vanilla para la gestión y etiquetado de elementos.</li>
+            <li><strong>Integración de API Mapbox:</strong> integré la API REST de Mapbox en una aplicación web existente para añadir funcionalidad de mapas interactivos.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="tag tag-yellow">JavaScript</span>
+            <span class="tag tag-blue">HTML · CSS</span>
+            <span class="tag tag-green">Mapbox API</span>
+            <span class="tag tag-orange">Excel VBA</span>
+            <span class="tag tag-red">REST API</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- INETUM 2024 -->
+      <div class="exp-item">
+        <div class="exp-dot"></div>
+        <div class="exp-card">
+          <div class="exp-header">
+            <div class="exp-company">
+              <div class="exp-logo" style="background:rgba(79,142,247,0.08);">
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                  <rect width="28" height="28" rx="7" fill="rgba(79,142,247,0.1)"/>
+                  <rect x="6" y="8" width="16" height="12" rx="2" fill="none" stroke="#4f8ef7" stroke-width="1.5"/>
+                  <path d="M6 13 h16" stroke="#4f8ef7" stroke-width="1.2" opacity=".5"/>
+                  <circle cx="9" cy="10.5" r="1" fill="#4f8ef7" opacity=".6"/>
+                  <circle cx="12" cy="10.5" r="1" fill="#4f8ef7" opacity=".6"/>
+                  <path d="M10 22 h8" stroke="#4f8ef7" stroke-width="1.5" stroke-linecap="round"/>
+                  <path d="M14 20 v2" stroke="#4f8ef7" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="exp-info">
+                <div class="exp-role">Técnico de Sistemas — Prácticas ASIR</div>
+                <div class="exp-company-name">INETUM · Servicios IT & Digital</div>
+              </div>
+            </div>
+            <div class="exp-meta">
+              <div class="exp-date">2024</div>
+              <div class="exp-duration">3 meses</div>
+            </div>
+          </div>
+          <p class="exp-desc">
+            Prácticas de Fin de Grado del ciclo ASIR en INETUM, empresa multinacional de servicios tecnológicos.
+            Trabajé en un entorno corporativo real gestionando infraestructura, incidencias y despliegues.
+          </p>
+          <ul class="exp-tasks">
+            <li><strong>Despliegue de aplicaciones:</strong> subida y despliegue de aplicaciones en entornos de producción mediante comandos de terminal y la herramienta de CI/CD Jenkins.</li>
+            <li><strong>Gestión de incidencias:</strong> resolución de tickets de soporte técnico usando Remedy, herramienta de ticketing corporativa, priorizando y documentando cada incidencia.</li>
+            <li><strong>Consultas a base de datos:</strong> consultas y revisión de datos sobre bases de datos Oracle usando TOAD como cliente de base de datos.</li>
+            <li><strong>Servidores remotos:</strong> conexión y administración de servidores remotos mediante Putty (SSH), revisión de logs y resolución de errores en procesos.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="tag tag-blue">Jenkins</span>
+            <span class="tag tag-orange">Oracle · TOAD</span>
+            <span class="tag tag-purple">Linux · Putty</span>
+            <span class="tag tag-cyan">Remedy</span>
+            <span class="tag tag-green">CI/CD</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TECNOLOGÍAS -->
+<section id="tech">
+  <div class="container">
+    <p class="section-label">// stack</p>
+    <h2 class="section-title">Tecnologías</h2>
+    <div class="section-divider"></div>
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-icon">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L2 19.8h20L12 2z" fill="#DD0031"/><path d="M12 2v17.8L22 19.8 12 2z" fill="#C3002F"/><path d="M12 6.7L6.5 17.3h2l1.1-2.8h4.8l1.1 2.8h2L12 6.7zm0 3.2l1.8 4.2H10.2L12 9.9z" fill="#fff"/></svg>
+        </div>
+        <div class="tech-name">Angular</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">
+          <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="3" fill="#3178C6"/><text x="12" y="16" text-anchor="middle" font-size="11" font-weight="900" font-family="Arial,sans-serif" fill="white">TS</text></svg>
+        </div>
+        <div class="tech-name">TypeScript</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">
+          <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="3" fill="#F7DF1E"/><path d="M6 17.5l1.4-.9c.3.5.6.9 1.2.9.6 0 .9-.2.9-1.1v-5.9h1.8v6c0 1.8-1 2.6-2.6 2.6-1.4 0-2.2-.7-2.7-1.6zm6 .2l1.4-.9c.4.6.9 1.1 1.8 1.1.8 0 1.2-.4 1.2-.9 0-.6-.5-.9-1.4-1.2l-.5-.2c-1.4-.6-2.3-1.3-2.3-2.8 0-1.4 1.1-2.4 2.7-2.4 1.2 0 2 .4 2.6 1.5l-1.4.9c-.3-.5-.6-.8-1.2-.8-.5 0-.9.3-.9.8 0 .5.3.8 1.1 1.1l.5.2c1.6.7 2.5 1.4 2.5 3 0 1.7-1.3 2.6-3.1 2.6-1.7 0-2.8-.9-3-2z" fill="#000"/></svg>
+        </div>
+        <div class="tech-name">JavaScript</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">
+          <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="3" fill="#E44D26"/><text x="12" y="10" text-anchor="middle" font-size="5" font-weight="700" font-family="Arial,sans-serif" fill="white">HTML</text><text x="12" y="18" text-anchor="middle" font-size="11" font-weight="900" font-family="Arial,sans-serif" fill="white">5</text></svg>
+        </div>
+        <div class="tech-name">HTML5</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">
+          <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="3" fill="#1572B6"/><text x="12" y="10" text-anchor="middle" font-size="5" font-weight="700" font-family="Arial,sans-serif" fill="white">CSS</text><text x="12" y="18" text-anchor="middle" font-size="11" font-weight="900" font-family="Arial,sans-serif" fill="white">3</text></svg>
+        </div>
+        <div class="tech-name">CSS3</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 1.85L3 6.57v10.86L12 22.15l9-4.72V6.57L12 1.85z" fill="#339933"/><path d="M12 1.85L3 6.57v10.86L12 22.15V1.85z" fill="#339933"/><path d="M12 1.85L3 6.57v10.86L12 22.15l9-4.72V6.57L12 1.85z" fill="none" stroke="#fff" stroke-width=".4" opacity=".3"/><text x="12" y="15.5" text-anchor="middle" font-size="6" font-weight="700" font-family="sans-serif" fill="white" letter-spacing="-.3">node</text></svg>
+        </div>
+        <div class="tech-name">Node.js</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">
+          <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="3" fill="#1a1a1a"/><text x="12" y="16.5" text-anchor="middle" font-size="10" font-weight="700" font-family="'Fira Code',monospace" fill="#888" letter-spacing="-1">ex</text></svg>
+        </div>
+        <div class="tech-name">Express</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">
+          <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="3" fill="#1a0a10"/><rect x="3" y="14" width="3.5" height="7" rx="1" fill="#FF6384"/><rect x="8" y="9" width="3.5" height="12" rx="1" fill="#36A2EB"/><rect x="13" y="11" width="3.5" height="10" rx="1" fill="#FFCE56"/><rect x="18" y="6" width="3.5" height="15" rx="1" fill="#4BC0C0"/><path d="M3 21h18" stroke="#ffffff" stroke-width=".8" opacity=".3"/></svg>
+        </div>
+        <div class="tech-name">Chart.js</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">
+          <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="3" fill="#1a2e1a"/><path d="M12 3C9 3 6.5 5.5 6.5 8.5c0 4.5 5.5 12.5 5.5 12.5s5.5-8 5.5-12.5C17.5 5.5 15 3 12 3z" fill="#199900"/><path d="M12 3C9 3 6.5 5.5 6.5 8.5c0 4.5 5.5 12.5 5.5 12.5V3z" fill="#2ECC40"/><circle cx="12" cy="8.5" r="2.2" fill="white" opacity=".9"/></svg>
+        </div>
+        <div class="tech-name">Leaflet</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 19.8h20L12 2z" fill="#DD0031"/><path d="M12 2v17.8L22 19.8 12 2z" fill="#C3002F"/><path d="M12 6.7L6.5 17.3h2l1.1-2.8h4.8l1.1 2.8h2L12 6.7zm0 3.2l1.8 4.2H10.2L12 9.9z" fill="#fff"/><rect x="5" y="19.5" width="14" height="3" rx="1" fill="#22d3ee"/><text x="12" y="22" text-anchor="middle" font-size="2.2" font-weight="bold" fill="#080c14" font-family="monospace">SSR</text></svg>
+        </div>
+        <div class="tech-name">Angular SSR</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">
+          <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="3" fill="#B7178C"/><path d="M5 12c0-1 .4-2 1.1-2.7L12 3.6l5.9 5.7C18.6 10 19 11 19 12s-.4 2-1.1 2.7L12 20.4l-5.9-5.7C5.4 14 5 13 5 12z" fill="none" stroke="white" stroke-width="1.5"/><circle cx="12" cy="12" r="2" fill="white"/></svg>
+        </div>
+        <div class="tech-name">RxJS</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">
+          <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="3" fill="#1a2740"/><path d="M4 8h16M4 12h10M4 16h13" stroke="#4f8ef7" stroke-width="1.8" stroke-linecap="round"/><circle cx="19" cy="12" r="2.5" fill="#4f8ef7"/><path d="M17.5 12l1.5-1.5M17.5 12l1.5 1.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="tech-name">REST API</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">
+          <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="3" fill="#1a0a2e"/><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" fill="none" stroke="#C89B3C" stroke-width="1.2"/><circle cx="12" cy="12" r="3" fill="#C89B3C" opacity=".8"/><path d="M12 9v6M9 12h6" stroke="#1a0a2e" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="tech-name">Riot API</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">
+          <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="3" fill="#CB3837"/><text x="12" y="15.5" text-anchor="middle" font-size="8.5" font-weight="900" font-family="sans-serif" fill="white">npm</text></svg>
+        </div>
+        <div class="tech-name">npm</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">
+          <svg viewBox="0 0 24 24"><path d="M22.17 10.88L13.12 1.83a1.18 1.18 0 00-1.66 0L9.44 3.85l2.1 2.1a1.4 1.4 0 011.77 1.78l2.02 2.02a1.4 1.4 0 011.83 1.83 1.4 1.4 0 01-1.4 1.4 1.4 1.4 0 01-1.4-1.4c0-.1.01-.2.03-.3L12.2 9.1v4.74a1.4 1.4 0 01.37 2.55 1.4 1.4 0 01-1.4-1.4 1.4 1.4 0 01.7-1.21V9.05a1.4 1.4 0 01-.37-2.55L9.4 4.43 1.83 12a1.18 1.18 0 000 1.66l9.05 9.05a1.18 1.18 0 001.66 0l9.63-9.63a1.18 1.18 0 000-1.2z" fill="#F05032"/></svg>
+        </div>
+        <div class="tech-name">Git</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROYECTOS -->
+<section id="projects">
+  <div class="container">
+    <p class="section-label">// projects</p>
+    <h2 class="section-title">Proyectos</h2>
+    <div class="section-divider"></div>
+    <div class="projects-grid">
+
+      <!-- Proyecto 1: Karts4Spain -->
+      <div class="project-card">
+        <div class="project-inner">
+          <div class="project-visual">
+            <div class="project-number">01</div>
+            <div class="project-icon">
+              <svg viewBox="0 0 120 120" width="120" height="120">
+                <defs><radialGradient id="g1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#4f8ef7" stop-opacity=".15"/><stop offset="100%" stop-color="#4f8ef7" stop-opacity="0"/></radialGradient></defs>
+                <rect width="120" height="120" rx="28" fill="url(#g1)"/>
+                <!-- kart body -->
+                <rect x="28" y="52" width="64" height="18" rx="5" fill="#1a2e4a" stroke="#4f8ef7" stroke-width="1.5"/>
+                <!-- cockpit -->
+                <ellipse cx="60" cy="52" rx="14" ry="7" fill="#0d1a2e" stroke="#4f8ef7" stroke-width="1.5"/>
+                <!-- nose -->
+                <path d="M92 56 L110 60 L92 64 Z" fill="#4f8ef7" opacity=".7"/>
+                <!-- rear wing -->
+                <rect x="22" y="46" width="12" height="3" rx="1.5" fill="#a78bfa"/>
+                <rect x="24" y="49" width="2" height="6" fill="#a78bfa" opacity=".6"/>
+                <rect x="32" y="49" width="2" height="6" fill="#a78bfa" opacity=".6"/>
+                <!-- wheels -->
+                <circle cx="38" cy="72" r="10" fill="#0d1a2e" stroke="#a78bfa" stroke-width="2.5"/>
+                <circle cx="38" cy="72" r="4" fill="#a78bfa" opacity=".5"/>
+                <circle cx="82" cy="72" r="10" fill="#0d1a2e" stroke="#a78bfa" stroke-width="2.5"/>
+                <circle cx="82" cy="72" r="4" fill="#a78bfa" opacity=".5"/>
+                <!-- speed lines -->
+                <path d="M14 55 H26M10 60 H24M14 65 H26" stroke="#4f8ef7" stroke-width="1.5" stroke-linecap="round" opacity=".4"/>
+                <!-- helmet -->
+                <circle cx="60" cy="49" r="6" fill="#4f8ef7" opacity=".8"/>
+                <path d="M55 49 Q60 43 65 49" fill="#2563eb" opacity=".6"/>
+              </svg>
+            </div>
+            <div class="project-type">Trabajo Fin de Grado</div>
+          </div>
+          <div class="project-content">
+            <h3 class="project-title">Karts4Spain</h3>
+            <p class="project-desc">
+              Plataforma social completa para aficionados al karting en España. Sistema de escuderías, clanes, ranking de pilotos, mapa interactivo de circuitos y funcionalidades sociales avanzadas.
+            </p>
+            <ul class="project-features">
+              <li>Sistema de registro, login y gestión de perfil de usuario</li>
+              <li>Creación y gestión de escuderías y clanes</li>
+              <li>Mapa interactivo con pistas de karting</li>
+              <li>Ranking de pilotos y sistema social de amigos</li>
+              <li>Renderizado en servidor (SSR) para mejor rendimiento y SEO</li>
+              <li>Backend con Node.js/Express y API REST propia</li>
+            </ul>
+            <div class="project-tags">
+              <span class="tag tag-blue">Angular 21</span>
+              <span class="tag tag-purple">TypeScript</span>
+              <span class="tag tag-green">Node.js</span>
+              <span class="tag tag-orange">Express</span>
+              <span class="tag tag-cyan">Angular SSR</span>
+              <span class="tag tag-yellow">Leaflet</span>
+              <span class="tag tag-red">REST API</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Proyecto 2: Ingresos & Gastos -->
+      <div class="project-card">
+        <div class="project-inner">
+          <div class="project-visual">
+            <div class="project-number">02</div>
+            <div class="project-icon">
+              <svg viewBox="0 0 120 120" width="120" height="120">
+                <defs><radialGradient id="g2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#34d399" stop-opacity=".15"/><stop offset="100%" stop-color="#34d399" stop-opacity="0"/></radialGradient></defs>
+                <rect width="120" height="120" rx="28" fill="url(#g2)"/>
+                <!-- card -->
+                <rect x="20" y="32" width="80" height="52" rx="8" fill="#0d2318" stroke="#34d399" stroke-width="2"/>
+                <!-- card stripe -->
+                <rect x="20" y="44" width="80" height="14" fill="#34d399" opacity=".12"/>
+                <!-- chip -->
+                <rect x="30" y="38" width="18" height="14" rx="3" fill="none" stroke="#34d399" stroke-width="1.5" opacity=".6"/>
+                <path d="M35 38v14M43 38v14M30 43h18M30 48h18" stroke="#34d399" stroke-width=".8" opacity=".4"/>
+                <!-- coin stack -->
+                <ellipse cx="82" cy="64" rx="10" ry="4" fill="#34d399" opacity=".7"/>
+                <ellipse cx="82" cy="61" rx="10" ry="4" fill="#0d2318" stroke="#34d399" stroke-width="1.5"/>
+                <ellipse cx="82" cy="58" rx="10" ry="4" fill="#34d399" opacity=".5"/>
+                <!-- bar chart -->
+                <rect x="28" y="66" width="8" height="12" rx="2" fill="#34d399" opacity=".5"/>
+                <rect x="40" y="60" width="8" height="18" rx="2" fill="#34d399" opacity=".7"/>
+                <rect x="52" y="56" width="8" height="22" rx="2" fill="#34d399" opacity=".9"/>
+                <!-- trend arrow -->
+                <path d="M30 77 L45 65 L55 70 L70 58" stroke="#34d399" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M66 56 L72 58 L70 64" stroke="#34d399" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="project-type">Aplicación Full Stack</div>
+          </div>
+          <div class="project-content">
+            <h3 class="project-title">Gestor de Ingresos & Gastos</h3>
+            <p class="project-desc">
+              Aplicación de finanzas personales para registrar y visualizar ingresos, gastos e inversiones con gráficas dinámicas e historial detallado.
+            </p>
+            <ul class="project-features">
+              <li>Dashboard con resumen financiero en tiempo real</li>
+              <li>Gráficas interactivas con Chart.js (barras, líneas, circular)</li>
+              <li>Gestión de categorías y etiquetado de transacciones</li>
+              <li>Módulo de inversiones y seguimiento de patrimonio</li>
+              <li>Historial con filtros por fecha y categoría</li>
+              <li>Calendario de gastos e ingresos mensuales</li>
+            </ul>
+            <div class="project-tags">
+              <span class="tag tag-blue">Angular 17</span>
+              <span class="tag tag-purple">TypeScript</span>
+              <span class="tag tag-pink">Chart.js</span>
+              <span class="tag tag-green">Node.js</span>
+              <span class="tag tag-orange">Express</span>
+              <span class="tag tag-yellow">RxJS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Proyecto 3: LoL Profile -->
+      <div class="project-card">
+        <div class="project-inner">
+          <div class="project-visual">
+            <div class="project-number">03</div>
+            <div class="project-icon">
+              <svg viewBox="0 0 120 120" width="120" height="120">
+                <defs><radialGradient id="g3" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#C89B3C" stop-opacity=".2"/><stop offset="100%" stop-color="#C89B3C" stop-opacity="0"/></radialGradient></defs>
+                <rect width="120" height="120" rx="28" fill="url(#g3)"/>
+                <!-- outer shield -->
+                <path d="M60 14 L18 32 L18 64 Q18 92 60 108 Q102 92 102 64 L102 32 Z" fill="none" stroke="#C89B3C" stroke-width="2.5" stroke-linejoin="round"/>
+                <!-- inner shield -->
+                <path d="M60 26 L30 38 L30 62 Q30 82 60 94 Q90 82 90 62 L90 38 Z" fill="rgba(200,155,60,0.08)" stroke="#C89B3C" stroke-width="1.5" stroke-linejoin="round" opacity=".7"/>
+                <!-- crossed swords -->
+                <line x1="40" y1="76" x2="80" y2="44" stroke="#C89B3C" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="80" y1="76" x2="40" y2="44" stroke="#C89B3C" stroke-width="2.5" stroke-linecap="round"/>
+                <!-- sword handles -->
+                <line x1="36" y1="72" x2="44" y2="80" stroke="#C89B3C" stroke-width="4" stroke-linecap="round" opacity=".5"/>
+                <line x1="76" y1="72" x2="84" y2="80" stroke="#C89B3C" stroke-width="4" stroke-linecap="round" opacity=".5"/>
+                <!-- center gem -->
+                <circle cx="60" cy="60" r="7" fill="#1a0e00" stroke="#C89B3C" stroke-width="2"/>
+                <circle cx="60" cy="60" r="3.5" fill="#C89B3C" opacity=".8"/>
+              </svg>
+            </div>
+            <div class="project-type">Integración de API externa</div>
+          </div>
+          <div class="project-content">
+            <h3 class="project-title">League of Legends Profile</h3>
+            <p class="project-desc">
+              Visor de perfiles de League of Legends que consume la API oficial de Riot Games. Muestra estadísticas detalladas de jugadores, historial de partidas y clasificación en la región EUW.
+            </p>
+            <ul class="project-features">
+              <li>Búsqueda de jugadores por Riot ID (nombre#tag)</li>
+              <li>Estadísticas de clasificación y rango actual</li>
+              <li>Historial de partidas con detalles por match</li>
+              <li>Proxy Node.js para resolver CORS con la Riot API</li>
+              <li>Soporte para región EUW (euw1 + europe routing)</li>
+            </ul>
+            <div class="project-tags">
+              <span class="tag tag-blue">Angular 21</span>
+              <span class="tag tag-purple">TypeScript</span>
+              <span class="tag tag-green">Node.js</span>
+              <span class="tag tag-orange">Express</span>
+              <span class="tag tag-red">Riot API</span>
+              <span class="tag tag-cyan">REST API</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-wrapper">
+      <p class="section-label">// contact</p>
+      <h2 class="section-title">¿Hablamos?</h2>
+      <div class="section-divider" style="margin: 0 auto 2rem;"></div>
+      <p class="contact-desc">
+        Estoy buscando mi primera oportunidad profesional. Si crees que puedo aportar valor a tu equipo, no dudes en escribirme.
+      </p>
+      <!-- CV -->
+      <div class="cv-card reveal has-cv">
+        <div class="cv-left">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <rect width="40" height="40" rx="10" fill="rgba(52,211,153,0.1)"/>
+            <path d="M12 8h11l9 9v15a2 2 0 01-2 2H12a2 2 0 01-2-2V10a2 2 0 012-2z" stroke="#34d399" stroke-width="1.8" fill="none" stroke-linejoin="round"/>
+            <path d="M23 8v9h9" stroke="#34d399" stroke-width="1.8" fill="none" stroke-linejoin="round"/>
+            <path d="M15 21h10M15 25h7" stroke="#34d399" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="cv-info">
+          <div class="cv-title">Currículum Vitae</div>
+          <div class="cv-sub">CV_IYAN_GIRONES_SUAREZ.pdf</div>
+        </div>
+        <div class="cv-actions">
+          <a href="CV_IYAN_GIRONES_SUAREZ.pdf" class="btn btn-primary" download>
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Descargar CV
+          </a>
+          <a href="CV_IYAN_GIRONES_SUAREZ.pdf" class="btn btn-outline" target="_blank">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            Ver CV
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-links">
+        <a href="https://github.com/iyanucuuu" class="contact-link" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <a href="https://www.linkedin.com/in/iy%C3%A1n-giron%C3%A9s-su%C3%A1rez/" class="contact-link" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Iyan Gironés Suárez</span>
+  <span class="footer-code">Angular · Node.js · TypeScript · 2026</span>
+</footer>
+
+<script>
+  /* ── STARS CANVAS ── */
+  const canvas = document.getElementById('stars-canvas');
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function initStars() {
+    stars = [];
+    for (let i = 0; i < 160; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.5 + 0.2,
+        alpha: Math.random(),
+        speed: Math.random() * 0.4 + 0.05,
+        twinkleSpeed: Math.random() * 0.02 + 0.005,
+        twinkleDir: Math.random() > 0.5 ? 1 : -1
+      });
+    }
+  }
+  initStars();
+
+  let mouseX = canvas.width / 2, mouseY = canvas.height / 2;
+  document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+
+  function drawStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach(s => {
+      s.alpha += s.twinkleSpeed * s.twinkleDir;
+      if (s.alpha >= 1 || s.alpha <= 0.05) s.twinkleDir *= -1;
+      s.y -= s.speed * 0.15;
+      if (s.y < 0) { s.y = canvas.height; s.x = Math.random() * canvas.width; }
+
+      const dx = mouseX - s.x, dy = mouseY - s.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const pushR = 120;
+      if (dist < pushR) {
+        s.x -= (dx / dist) * (pushR - dist) * 0.015;
+        s.y -= (dy / dist) * (pushR - dist) * 0.015;
+      }
+
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${dist < pushR ? '167,139,250' : '79,142,247'},${s.alpha})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(drawStars);
+  }
+  drawStars();
+
+  /* ── TYPING EFFECT ── */
+  const phrases = [
+    'Desarrollador Angular',
+    'Desarrollador Full Stack',
+    'Técnico de Sistemas & Desarrollador Web',
+    'Angular · Node.js · TypeScript',
+    'Siempre aprendiendo, siempre construyendo',
+    'De ASIR a Full Stack Developer'
+  ];
+  let phraseIndex = 0, charIndex = 0, deleting = false;
+  const el = document.getElementById('typed-text');
+
+  function type() {
+    const phrase = phrases[phraseIndex];
+    if (!deleting) {
+      el.textContent = phrase.slice(0, ++charIndex);
+      if (charIndex === phrase.length) { deleting = true; setTimeout(type, 1800); return; }
+    } else {
+      el.textContent = phrase.slice(0, --charIndex);
+      if (charIndex === 0) { deleting = false; phraseIndex = (phraseIndex + 1) % phrases.length; }
+    }
+    setTimeout(type, deleting ? 45 : 80);
+  }
+  type();
+
+  /* ── SCROLL REVEAL ── */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        const delay = e.target.dataset.delay || i * 80;
+        setTimeout(() => e.target.classList.add('visible'), delay);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.tech-card, .project-card, .reveal, .exp-item').forEach((el, i) => {
+    el.dataset.delay = i * 70;
+    observer.observe(el);
+  });
+
+  /* ── NAV SCROLL EFFECT ── */
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    nav.style.background = window.scrollY > 60
+      ? 'rgba(8,12,20,0.95)'
+      : 'rgba(8,12,20,0.7)';
+  });
+
+/* ── ACTIVE NAV LINKS ── */
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 200) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--text)' : '';
+    });
+  });
+</script>
+</body>
+</html>
